@@ -1,61 +1,36 @@
-// REQUIRES the following Arduino libraries:
-// - DHT Sensor Library: https://github.com/adafruit/DHT-sensor-library
-// - Adafruit Unified Sensor Lib: https://github.com/adafruit/Adafruit_Sensor
 #include <Arduino.h>
-#include <Adafruit_Sensor.h>
-#include "DHT.h"
 
-#define DHTPIN 2 // Digital pin connected to the DHT sensor
-#define DHTTYPE DHT11 
-
-// Initialize DHT sensor.
-// Note that older versions of this library took an optional third parameter to
-// tweak the timings for faster processors.  This parameter is no longer needed
-// as the current DHT reading algorithm adjusts itself to work on faster procs.
-DHT dht(DHTPIN, DHTTYPE);
+int speakerPin = 9;
+// Note frequencies
+#define NOTE_C4 262
+#define NOTE_D4 294
+#define NOTE_E4 330
+#define NOTE_F4 349
+#define NOTE_G4 392
+#define NOTE_A4 440
+#define NOTE_B4 494
+#define NOTE_C5 523
 
 void setup()
 {
-  Serial.begin(9600);
-  Serial.println(F("DHTxx test!"));
-
-  dht.begin();
+  pinMode(speakerPin, OUTPUT);
 }
 
 void loop()
 {
-  // Wait a few seconds between measurements.
-  delay(2000);
+  // Verse 1
+  tone(speakerPin, NOTE_G4, 250);
+  delay(250);
+  tone(speakerPin, NOTE_G4, 250);
+  delay(250);
+  tone(speakerPin, NOTE_A4, 500);
+  delay(500);
+  tone(speakerPin, NOTE_G4, 500);
+  delay(500);
+  tone(speakerPin, NOTE_C5, 500);
+  delay(500);
 
-  // Reading temperature or humidity takes about 250 milliseconds!
-  // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
-  float h = dht.readHumidity();
-  // Read temperature as Celsius (the default)
-  float t = dht.readTemperature();
-  // Read temperature as Fahrenheit (isFahrenheit = true)
-  float f = dht.readTemperature(true);
-
-  // Check if any reads failed and exit early (to try again).
-  if (isnan(h) || isnan(t) || isnan(f))
-  {
-    Serial.println(F("Failed to read from DHT sensor!"));
-    return;
-  }
-
-  // Compute heat index in Fahrenheit (the default)
-  float hif = dht.computeHeatIndex(f, h);
-  // Compute heat index in Celsius (isFahreheit = false)
-  float hic = dht.computeHeatIndex(t, h, false);
-
-  Serial.print(F("Humidity: "));
-  Serial.print(h);
-  Serial.print(F("%  Temperature: "));
-  Serial.print(t);
-  Serial.print(F("°C "));
-  Serial.print(f);
-  Serial.print(F("°F  Heat index: "));
-  Serial.print(hic);
-  Serial.print(F("°C "));
-  Serial.print(hif);
-  Serial.println(F("°F"));
+  // Verse 2
+  tone(speakerPin, NOTE_B4, 1000);
+  delay(1000);
 }
